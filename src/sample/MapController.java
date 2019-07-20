@@ -7,6 +7,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
 public class MapController {
@@ -65,7 +67,7 @@ public class MapController {
         }
         if (startCircle != null)
             root.getChildren().removeAll(startCircle);
-        startCircle = drawCircle(startPointPos);
+        startCircle = drawCircle(startPointPos, Color.GREEN);
 
         if (inputManager.isEndPointSelected()) {
             Bounds pointBoundsOnMap = mapView.sceneToLocal(pointer.localToScene(pointer.getBoundsInLocal()));
@@ -74,15 +76,15 @@ public class MapController {
         }
         if (endCircle != null)
             root.getChildren().removeAll(endCircle);
-        endCircle = drawCircle(endPointPos);
+        endCircle = drawCircle(endPointPos, Color.RED);
 
 
     }
 
-    private Circle drawCircle(float[] pos) {
+    private Circle drawCircle(float[] pos, Color paint) {
         if (pos[0] != -1 && pos[1] != -1){
             Point2D pointOnScene = root.sceneToLocal(mapView.localToScene(pos[0], pos[1]));
-            Circle circle = new Circle(pointOnScene.getX(), pointOnScene.getY(), 5);
+            Circle circle = new Circle(pointOnScene.getX(), pointOnScene.getY(), 5, paint);
             root.getChildren().add(circle);
             return circle;
         }
