@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
@@ -15,5 +16,6 @@
       </ImageView>
       <Circle fx:id="pointer" fill="DODGERBLUE" radius="2.0" stroke="BLACK" strokeType="INSIDE" />
       <StackPane />
+      <Canvas fx:id="canvas" height="200.0" width="200.0" />
    </children>
 </Pane>
