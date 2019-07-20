@@ -1,0 +1,11 @@
+a0c8e8 - vesi
+d0d8a0 - mets
+f0e8c0 - lage
+c83840 - hoone/õu
+508050 - salu/metsane
+000000 - norm tee
+d860d0 - vilu tee
+d89850 - suur tee
+d8b858 - veel keskmised teed, normist 1 tase all
+509464 -soo 2 (raba)
+70c0d4 -soo 1 (madalsoo)
