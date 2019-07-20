@@ -8,6 +8,9 @@ public class InputManager {
     private float horizontal;
     private float vertical;
     private float zoom;
+    private boolean startPointSelected;
+    private boolean endPointSelected;
+
 
     public void handleInput(KeyEvent event){
         if (event.getCode() == KeyCode.W){
@@ -48,6 +51,20 @@ public class InputManager {
             else
                 zoom = 0;
         }
+
+        if (event.getCode() == KeyCode.Z){
+            if (event.getEventType() == KeyEvent.KEY_PRESSED)
+                startPointSelected = true;
+            else
+                startPointSelected = false;
+        }
+
+        if (event.getCode() == KeyCode.X){
+            if (event.getEventType() == KeyEvent.KEY_PRESSED)
+                endPointSelected = true;
+            else
+                endPointSelected = false;
+        }
     }
 
     public float getHorizontal() {
@@ -60,5 +77,14 @@ public class InputManager {
 
     public float getZoom() {
         return zoom;
+    }
+
+    public boolean isStartPointSelected() {
+
+        return startPointSelected;
+    }
+
+    public boolean isEndPointSelected() {
+        return endPointSelected;
     }
 }

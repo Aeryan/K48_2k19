@@ -39,7 +39,7 @@ public class Main extends Application {
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent e) {
-                if(e.getCode() == KeyCode.X) {
+                if(e.getCode() == KeyCode.ESCAPE) {
                     Platform.exit();
                 }
             }
