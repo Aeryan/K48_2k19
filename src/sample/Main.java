@@ -4,20 +4,15 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.security.Key;
 
 public class Main extends Application {
-
-    public String pictureName = "somemap.png";
 
     private String greenStyle = "-fx-background-color:\n" +
             "        linear-gradient(#f0ff35, #a9ff00),\n" +
@@ -32,7 +27,7 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("map.fxml"));
         Pane root =  loader.load();
         primaryStage.setTitle("PathFinder");
-        Scene scene = new Scene(root, 500, 300);
+        Scene scene = new Scene(root, 600, 300);
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent e) {
@@ -48,8 +43,12 @@ public class Main extends Application {
         Button actionButton = new Button("Path");
         actionButton.setLayoutX(60);
         actionButton.setStyle(greenStyle);
+        Button infoButton = new Button("Info");
+        infoButton.setLayoutX(120);
+        infoButton.setStyle(greenStyle);
         root.getChildren().add(exitBtn);
         root.getChildren().add(actionButton);
+        root.getChildren().add(infoButton);
         primaryStage.show();
     }
 
