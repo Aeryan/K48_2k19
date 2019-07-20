@@ -32,9 +32,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        FXMLLoader loader = new FXMLLoader(Main.class.getResource("map.fxml"));
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("map2.fxml"));
         Pane root =  loader.load();
-        primaryStage.setTitle("PathFinder");
+        primaryStage.setTitle("pathfinder.PathFinder");
         Scene scene = new Scene(root, SCENEWIDTHX, SCENEHEIGHTX);
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
