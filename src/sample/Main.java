@@ -18,9 +18,9 @@ public class Main extends Application {
         Pane root =  loader.load();
         primaryStage.setTitle("PathFinder");
         primaryStage.setScene(new Scene(root, 300, 275));
-        Button exitBtn = new Button("Exit X");
-        exitBtn.setOnAction(e -> Platform.exit());
-        root.getChildren().add(exitBtn);
+//        Button exitBtn = new Button("Exit X");
+//        exitBtn.setOnAction(e -> Platform.exit());
+//        root.getChildren().add(exitBtn);
         primaryStage.show();
     }
 
