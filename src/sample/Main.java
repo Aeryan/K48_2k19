@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
@@ -13,6 +14,13 @@ import javafx.stage.Stage;
 
 
 public class Main extends Application {
+
+    private static final int SCENEWIDTHX = 600;
+    private static final int SCENEHEIGHTX = 300;
+    private static final int ACTIONBUTTONLAYOUTX = 60;
+    private static final int INFOBUTTONLAYOUTX = 120;
+    private static final int INZOOMLABELLAYOUTX = 180;
+    private static final int OUTZOOMLAYOUTX = 260;
 
     private String greenStyle = "-fx-background-color:\n" +
             "        linear-gradient(#f0ff35, #a9ff00),\n" +
@@ -27,7 +35,7 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("map.fxml"));
         Pane root =  loader.load();
         primaryStage.setTitle("PathFinder");
-        Scene scene = new Scene(root, 600, 300);
+        Scene scene = new Scene(root, SCENEWIDTHX, SCENEHEIGHTX);
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent e) {
@@ -41,11 +49,19 @@ public class Main extends Application {
         exitBtn.setStyle(greenStyle);
         exitBtn.setOnAction(e -> Platform.exit());
         Button actionButton = new Button("Path");
-        actionButton.setLayoutX(60);
+        actionButton.setLayoutX(ACTIONBUTTONLAYOUTX);
         actionButton.setStyle(greenStyle);
         Button infoButton = new Button("Info");
-        infoButton.setLayoutX(120);
+        infoButton.setLayoutX(INFOBUTTONLAYOUTX);
         infoButton.setStyle(greenStyle);
+        Label in = new Label("Q to zoom in");
+        Label out = new Label("E to zoom out");
+        in.setStyle(greenStyle);
+        out.setStyle(greenStyle);
+        in.setLayoutX(INZOOMLABELLAYOUTX);
+        out.setLayoutX(OUTZOOMLAYOUTX);
+        root.getChildren().add(in);
+        root.getChildren().add(out);
         root.getChildren().add(exitBtn);
         root.getChildren().add(actionButton);
         root.getChildren().add(infoButton);
