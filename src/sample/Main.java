@@ -2,15 +2,19 @@ package sample;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 
@@ -35,11 +39,16 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        FXMLLoader main = new FXMLLoader(Main.class.getResource("first.fxml"));
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("map.fxml"));
         FXMLLoader secondLoader = new FXMLLoader(Main.class.getResource("sample.fxml"));
+        Pane mainroot = main.load();
+        //mainroot.setBackground(new Background(new BackgroundFill(Paint.valueOf(Gr), CornerRadii.EMPTY, Insets.EMPTY)));
         Pane root =  loader.load();
         Pane secondRoot = secondLoader.load();
         primaryStage.setTitle("PathFinder");
+        //Main menu scene
+        Scene menuscene = new Scene(mainroot, SCENEWIDTHX, SCENEHEIGHTX);
         //Scene without path
         Scene scene = new Scene(root, SCENEWIDTHX, SCENEHEIGHTX);
         //Scene with path
@@ -52,6 +61,19 @@ public class Main extends Application {
         backButton.setLayoutY(BACKBUTTONLLAYOUTY);
         backButton.setLayoutX(BACKBUTTONLAYOUTX);
         secondRoot.getChildren().add(backButton);
+        // Menu scene settings
+        Button startButton = new Button("Start!");
+        startButton.setStyle(greenStyle);
+        mainroot.getChildren().add(startButton);
+        startButton.setOnAction(e -> primaryStage.setScene(scene));
+        menuscene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent e) {
+                if(e.getCode() == KeyCode.X) {
+                    Platform.exit();
+                }
+            }
+        });
         // First scene settings
         scene1.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -72,7 +94,7 @@ public class Main extends Application {
                 }
             }
         });
-        primaryStage.setScene(scene);
+        primaryStage.setScene(menuscene);
         Button exitBtn = new Button("Exit X");
         exitBtn.setStyle(greenStyle);
         exitBtn.setOnAction(e -> Platform.exit());
