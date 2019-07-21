@@ -90,11 +90,7 @@ public class Main extends Application {
         out.setStyle(greenStyle);
         in.setLayoutX(INZOOMLABELLAYOUTX);
         out.setLayoutX(OUTZOOMLAYOUTX);
-        root.getChildren().add(in);
-        root.getChildren().add(out);
-        root.getChildren().add(exitBtn);
-        root.getChildren().add(actionButton);
-        root.getChildren().add(infoButton);
+        root.getChildren().addAll(in, out, exitBtn, actionButton, infoButton);
         primaryStage.show();
     }
 
