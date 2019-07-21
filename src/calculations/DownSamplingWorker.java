@@ -18,7 +18,7 @@ public class DownSamplingWorker implements Runnable {
 
     public void run() {
         int xLength = GivenData[0].length;
-        System.out.println(GivenData.length);
+        //System.out.println(GivenData.length);
         double[] tempData = new double[xLength];
         for (int y = 0; y < GivenData.length; y+=Area) {
             for (int i = 0; i < Area; i++) {

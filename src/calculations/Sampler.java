@@ -1,7 +1,9 @@
 package calculations;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.List;
 
 public class Sampler {
 
@@ -67,11 +69,24 @@ public class Sampler {
         int dEndX = (int) Math.ceil(endX/(dataset[0].length / processedData[0].length));
         int dEndY = (int) Math.ceil(endY/(dataset.length / processedData.length));
 
+
+        // This has the whole path we're looking for stored in it in the form of parents.
         PathFinder.Point Path = new PathFinder().pathFinder(dStartX, dStartY, dEndX, dEndY, processedData, area);
 
-        System.out.println(dStartX + ":" + dStartY);
-        System.out.println(dEndX + ":" + dEndY);
+        List<PathFinder.Point> PathPoints = new ArrayList<>();
+        while (Path != null) {
+            PathPoints.add(Path);
+            Path = Path.Parent;
+        }
 
+        // PathPoints now contains all the Points we need to go through for optimal travel
+
+        List<PathFinder.Point> UpdatedPoints = new ArrayList<>();
+        for (PathFinder.Point p: PathPoints) {
+            p.X = p.X * (dataset[0].length / processedData[0].length);
+            p.Y = p.Y * (dataset.length / processedData.length);
+            UpdatedPoints.add(p);
+        }
     }
 
 }

@@ -7,8 +7,8 @@ import java.util.List;
 public class PathFinder {
 
     public class Point {
-        final public int X;
-        final public int Y;
+        public int X;
+        public int Y;
         public double F;
         public double G;
         public Point Parent;
@@ -27,6 +27,7 @@ public class PathFinder {
 
     public boolean checkExists(HashMap<Integer, Point> points, Point p) {
 
+        /*
         int cores = Runtime.getRuntime().availableProcessors();
         Thread[] threads = new Thread[cores];
         int size = (int)Math.ceil(points.size() / cores);
@@ -54,6 +55,15 @@ public class PathFinder {
             }
         }
         return true;
+         */
+        Object[] _points = points.values().toArray();
+        for (int i = 0; i < _points.length; i++) {
+            Point op = (Point)_points[i];
+            if (op.F < p.F) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public Point pathFinder(int startX, int startY, int endX, int endY, double[][] dataset, int area) {
@@ -68,11 +78,13 @@ public class PathFinder {
         openList.put(s.Hash, s);
         //
 
-        Point sel = s;
+        Point sel = (Point)openList.values().toArray()[0];
 
         while (openList.size() > 0) {
+            //
             System.out.println(openList.size());
             // FIND THE POINT WITH LOWEST HURDLE
+            sel = (Point)openList.values().toArray()[0];
             for (Point p: openList.values()) {
                 if (sel.F > p.F) {
                     sel = p;
@@ -84,9 +96,9 @@ public class PathFinder {
 
             // Generate surrounding points! + add them to open list if they meet the specifications
             for (int x = sel.X - 1; x < sel.X + 2; x++) {
-                if (x > 0 && x < dataset[0].length) {
+                if (x >= 0 && x < dataset[0].length) {
                     for (int y = sel.Y - 1; y < sel.Y + 2; y++) {
-                        if (y > 0 && y < dataset.length && (sel.X != x && sel.Y != y)) {
+                        if (y >= 0 && y < dataset.length) {
 
                             if (x == endX && y == endY) {
                                 closedList.put(sel.Hash, sel);
@@ -96,23 +108,37 @@ public class PathFinder {
                                 return p;
                             }
 
-                            Point p = new Point(x, y);
-                            p.Parent = sel;
-                            p.G = sel.G + dataset[y][x] * area;
-                            p.F = p.G + p.dist(endX, endY);
+                            if (!(sel.X == x && sel.Y == y)) {
 
-                            //Check for same points, but worse hurdle
-                            boolean add = checkExists(openList, p);
-                            if (add) {
-                                add = checkExists(closedList, p);
+                                Point p = new Point(x, y);
+                                p.Parent = sel;
+                                p.G = sel.G + dataset[y][x] * area;
+                                p.F = p.G + p.dist(endX, endY);
+
+                                System.out.println(p.Hash);
+
+                                //Check for same points, but worse hurdle
+                                boolean add = true;
+                                if (openList.containsKey(p.Hash)) {
+                                    if (p.F < openList.get(p.Hash).F) {
+                                        add = false;
+                                    }
+                                }
+                                if (closedList.containsKey(p.Hash)) {
+                                    if (p.F < closedList.get(p.Hash).F) {
+                                        add = false;
+                                    }
+                                }
+
+                                if (add) {
+                                    openList.put(p.Hash, p);
+                                }
                             }
-                            //
-                            if (add) {
-                                openList.put(p.Hash, p);
-                            }
+
                         }
                     }
                 }
+
             }
             //
 
