@@ -1,5 +1,6 @@
+package calculations;
+
 import java.util.HashMap;
-import java.util.List;
 
 public class SortingWorker implements Runnable {
 

@@ -34,7 +34,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("map2.fxml"));
         Pane root =  loader.load();
-        primaryStage.setTitle("pathfinder.PathFinder");
+        primaryStage.setTitle("pathfinder.calculations.PathFinder");
         Scene scene = new Scene(root, SCENEWIDTHX, SCENEHEIGHTX);
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
