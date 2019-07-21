@@ -1,17 +1,16 @@
 package sample;
 
+import calculations.Sampler;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polyline;
-import javafx.scene.transform.Scale;
+
 
 public class MapController {
 
@@ -27,8 +26,11 @@ public class MapController {
     private InputManager inputManager = new InputManager();
 
     private double[] path;
+    private Double[] rawPath;
 
     private Polyline drawnPath;
+
+    private boolean pathChanged;
 
     @FXML
     private Pane root;
@@ -80,6 +82,7 @@ public class MapController {
             Bounds pointBoundsOnMap = mapView.sceneToLocal(pointer.localToScene(pointer.getBoundsInLocal()));
             startPointPos[0] = (float) pointBoundsOnMap.getCenterX();
             startPointPos[1] = (float) pointBoundsOnMap.getCenterY();
+            pathChanged = true;
         }
         if (startCircle != null)
             root.getChildren().removeAll(startCircle);
@@ -89,6 +92,7 @@ public class MapController {
             Bounds pointBoundsOnMap = mapView.sceneToLocal(pointer.localToScene(pointer.getBoundsInLocal()));
             endPointPos[0] = (float) pointBoundsOnMap.getCenterX();
             endPointPos[1] = (float) pointBoundsOnMap.getCenterY();
+            pathChanged = true;
         }
         if (endCircle != null)
             root.getChildren().removeAll(endCircle);
@@ -98,12 +102,18 @@ public class MapController {
     }
 
     private void drawPath(){
-        path = new double[] {startPointPos[0], startPointPos[1], endPointPos[0], endPointPos[1]};
-        if (drawnPath != null)
-            root.getChildren().removeAll(drawnPath);
-        if (path != null && path.length != 0){
-            drawnPath = new Polyline(transformPoints(path));
-            root.getChildren().add(drawnPath);
+        if (startPointPos[0] >= 0 && startPointPos[1] >= 0 && endPointPos[0] >= 0 && endPointPos[1] >= 0){
+            if (pathChanged) {
+                rawPath = Sampler.main(1000, 10, (int) startPointPos[0], (int) startPointPos[1], (int) endPointPos[0], (int) endPointPos[1]).toArray(new Double[0]);
+                pathChanged = false;
+            }
+            path = transformPoints(rawPath);
+            if (drawnPath != null)
+                root.getChildren().removeAll(drawnPath);
+            if (path != null && path.length != 0){
+                drawnPath = new Polyline(path);
+                root.getChildren().add(drawnPath);
+            }
         }
     }
 
@@ -117,15 +127,16 @@ public class MapController {
         return null;
     }
 
-    private double[] transformPoints(double[] data){
+    private double[] transformPoints(Double[] data){
         int i = 0;
-        while (i < path.length){
+        double[] result = new double[data.length];
+        while (i < data.length){
             Point2D pointOnScene = root.sceneToLocal(mapView.localToScene(data[i], data[i + 1]));
-            data[i] = pointOnScene.getX();
-            data[i + 1] = pointOnScene.getY();
+            result[i] = pointOnScene.getX();
+            result[i + 1] = pointOnScene.getY();
             i += 2;
         }
-        return data;
+        return result;
     }
 
     @FXML

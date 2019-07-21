@@ -9,7 +9,7 @@ public class Sampler {
 
     // Currently just a wrapper so that the mapper could be worked on
 
-    public static void main(int size, int area, int startX, int startY, int endX, int endY) {
+    public static List<Double> main(int size, int area, int startX, int startY, int endX, int endY) {
         int cores = Runtime.getRuntime().availableProcessors();
 
         double[][] dataset = new double[size][size];
@@ -81,12 +81,14 @@ public class Sampler {
 
         // PathPoints now contains all the Points we need to go through for optimal travel
 
-        List<PathFinder.Point> UpdatedPoints = new ArrayList<>();
+        List<Double> UpdatedPoints = new ArrayList<>();
         for (PathFinder.Point p: PathPoints) {
             p.X = p.X * (dataset[0].length / processedData[0].length);
             p.Y = p.Y * (dataset.length / processedData.length);
-            UpdatedPoints.add(p);
+            UpdatedPoints.add((double)p.X);
+            UpdatedPoints.add((double)p.Y);
         }
+        return UpdatedPoints;
     }
 
 }
