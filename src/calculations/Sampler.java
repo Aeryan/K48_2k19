@@ -43,7 +43,6 @@ public class Sampler {
                 counter+=area;
                 order++;
 
-                break;
             }
 
             for (Thread thread: threads) {
