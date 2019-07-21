@@ -10,6 +10,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import javafx.scene.transform.Scale;
 
 public class MapController {
 
@@ -49,14 +50,25 @@ public class MapController {
         //Move
         mapView.setTranslateX(mapView.getTranslateX() + inputManager.getHorizontal() * SPEED);
         mapView.setTranslateY(mapView.getTranslateY() + inputManager.getVertical() * SPEED);
-        //Zoom
-        mapView.setScaleX(mapView.getScaleX() + inputManager.getZoom() * ZOOM_SPEED);
-        mapView.setScaleY(mapView.getScaleY() + inputManager.getZoom() * ZOOM_SPEED);
+        //Zoom to pointer
+        zoom();
         // Pointer
         pointer.setLayoutX(root.getLayoutBounds().getMaxX() / 2f);
         pointer.setLayoutY(root.getLayoutBounds().getMaxY() / 2f);
 
         drawWaypoint();
+    }
+
+    private void zoom(){
+        final Bounds before = mapView.sceneToLocal(pointer.localToScene(pointer.getBoundsInLocal()));
+        final Point2D beforePoint = new Point2D(before.getCenterX(), before.getCenterY());
+        mapView.setScaleX(mapView.getScaleX() + inputManager.getZoom() * ZOOM_SPEED);
+        mapView.setScaleY(mapView.getScaleY() + inputManager.getZoom() * ZOOM_SPEED);
+        final Bounds after = mapView.sceneToLocal(pointer.localToScene(pointer.getBoundsInLocal()));
+        final Point2D afterPoint = new Point2D(after.getCenterX(), after.getCenterY());
+        final Point2D dif = beforePoint.subtract(afterPoint);
+        mapView.setTranslateX(mapView.getTranslateX() - dif.getX() * mapView.getScaleX());
+        mapView.setTranslateY(mapView.getTranslateY() - dif.getY() * mapView.getScaleX());
     }
 
     private void drawWaypoint(){
