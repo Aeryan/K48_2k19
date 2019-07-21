@@ -10,9 +10,9 @@ public class Encoder {
     public static void main(String[] args) throws IOException{
 
         double[][] pixels;
-        pixels = encode("kaart.png");
+        pixels = encode("map_computer.png");
 
-        PrintWriter writer = new PrintWriter(new File("kaart.csv"));
+        PrintWriter writer = new PrintWriter(new File("map.csv"));
         StringBuilder sb = new StringBuilder();
         String prefix;
         for (double[] i : pixels) {
@@ -35,33 +35,27 @@ public class Encoder {
         File imagefile = new File(imagepath);
         BufferedImage image = ImageIO.read(imagefile);
 
-        final int width = image.getWidth()/2;
-        final int height = image.getHeight()/2;
+        final int width = image.getWidth();
+        final int height = image.getHeight();
 
         HashMap<String, Double> colorMap = new HashMap<>();
-        colorMap.put("#a0c8e8", 50.);    // vesi
-        colorMap.put("#d0d8a0", 7.);     // mets
-        colorMap.put("#f0e8c0", 4.);     // lage
-        colorMap.put("#c83840", 100.);   // hoone/õu
-        colorMap.put("#508050", 6.);     // salu/metsane
-        colorMap.put("#000000", 1.2);    // norm tee
-        colorMap.put("#d860d0", 1.1);    // vilu tee
-        colorMap.put("#d89850", 1.);     // suur tee
-        colorMap.put("#d8b858", 1.3);    // veel keskmised teed, normist 1 tase all
-        colorMap.put("#509464", 30.);    // soo 2 (raba)
-        colorMap.put("#70c0d4", 25.);    // soo 1 (madalsoo)
+        colorMap.put("#22b14c", 7.); // mets
+        colorMap.put("#c3c3c3", 4.); // lageala
+        colorMap.put("#ffc90e", 1.); // sillutatud tee
+        colorMap.put("#a349a4", 1.2); // kruusatee
+        colorMap.put("#ed1c24", 50.); // hoone
+        colorMap.put("#00a2e8", 30.); // vesi
+        colorMap.put("#b5e61d", 9.); // võsa
 
         double[][] result = new double[height][width];
 
-        for (int i = 0; i < height; i += 2) {
-            for (int j = 0; j < width; j += 2) {
+        for (int i = 0; i < height; i ++) {
+            for (int j = 0; j < width; j ++) {
                 int rgb = image.getRGB(j, i);
                 String hex = String.format("#%02x%02x%02x",
                         (rgb >> 16) & 0x000000FF, (rgb >>8 ) & 0x000000FF,
                         rgb & 0x000000FF);
-                if(!colorMap.containsKey(hex))
-                    result[i/2][j/2] = 0;
-                else result[i/2][j/2] = colorMap.get(hex);
+                result[i][j] = colorMap.get(hex);
             }
         }
 
