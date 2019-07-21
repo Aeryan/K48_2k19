@@ -10,6 +10,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Polyline;
 import javafx.scene.transform.Scale;
 
 public class MapController {
@@ -24,11 +25,13 @@ public class MapController {
     private Circle endCircle;
 
     private InputManager inputManager = new InputManager();
-    @FXML
-    private Pane root;
+
+    private double[] path;
+
+    private Polyline drawnPath;
 
     @FXML
-    private Canvas canvas;
+    private Pane root;
 
     @FXML
     private Circle pointer;
@@ -57,6 +60,7 @@ public class MapController {
         pointer.setLayoutY(root.getLayoutBounds().getMaxY() / 2f);
 
         drawWaypoint();
+        drawPath();
     }
 
     private void zoom(){
@@ -93,6 +97,16 @@ public class MapController {
 
     }
 
+    private void drawPath(){
+        path = new double[] {startPointPos[0], startPointPos[1], endPointPos[0], endPointPos[1]};
+        if (drawnPath != null)
+            root.getChildren().removeAll(drawnPath);
+        if (path != null && path.length != 0){
+            drawnPath = new Polyline(transformPoints(path));
+            root.getChildren().add(drawnPath);
+        }
+    }
+
     private Circle drawCircle(float[] pos, Color paint) {
         if (pos[0] != -1 && pos[1] != -1){
             Point2D pointOnScene = root.sceneToLocal(mapView.localToScene(pos[0], pos[1]));
@@ -101,6 +115,17 @@ public class MapController {
             return circle;
         }
         return null;
+    }
+
+    private double[] transformPoints(double[] data){
+        int i = 0;
+        while (i < path.length){
+            Point2D pointOnScene = root.sceneToLocal(mapView.localToScene(data[i], data[i + 1]));
+            data[i] = pointOnScene.getX();
+            data[i + 1] = pointOnScene.getY();
+            i += 2;
+        }
+        return data;
     }
 
     @FXML
