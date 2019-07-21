@@ -104,7 +104,7 @@ public class MapController {
     private void drawPath(){
         if (startPointPos[0] >= 0 && startPointPos[1] >= 0 && endPointPos[0] >= 0 && endPointPos[1] >= 0){
             if (pathChanged) {
-                rawPath = Sampler.main(1000, 10, (int) startPointPos[0], (int) startPointPos[1], (int) endPointPos[0], (int) endPointPos[1]).toArray(new Double[0]);
+                rawPath = Sampler.main(1000, 1, (int) startPointPos[0], (int) startPointPos[1], (int) endPointPos[0], (int) endPointPos[1]).toArray(new Double[0]);
                 pathChanged = false;
             }
             path = transformPoints(rawPath);

@@ -17,10 +17,10 @@ public class Main extends Application {
 
     private static final int SCENEWIDTHX = 600;
     private static final int SCENEHEIGHTX = 300;
-    private static final int ACTIONBUTTONLAYOUTX = 60;
-    private static final int INFOBUTTONLAYOUTX = 120;
-    private static final int INZOOMLABELLAYOUTX = 180;
-    private static final int OUTZOOMLAYOUTX = 260;
+    private static final int STARTLAYOUTX = 50;
+    private static final int ENDLAYOUTX = 130;
+    private static final int INZOOMLABELLAYOUTX = 200;
+    private static final int OUTZOOMLAYOUTX = 280;
 
     private String greenStyle = "-fx-background-color:\n" +
             "        linear-gradient(#f0ff35, #a9ff00),\n" +
@@ -48,14 +48,20 @@ public class Main extends Application {
         Button exitBtn = new Button("Exit X");
         exitBtn.setStyle(greenStyle);
         exitBtn.setOnAction(e -> Platform.exit());
-        Button actionButton = new Button("Path");
-        actionButton.setLayoutX(ACTIONBUTTONLAYOUTX);
-        actionButton.setStyle(greenStyle);
-        Button infoButton = new Button("Info");
-        infoButton.setLayoutX(INFOBUTTONLAYOUTX);
-        infoButton.setStyle(greenStyle);
-        Label in = new Label("Q to zoom in");
-        Label out = new Label("E to zoom out");
+//        Button actionButton = new Button("Path");
+//        actionButton.setLayoutX(STARTLAYOUTX);
+//        actionButton.setStyle(greenStyle);
+//        Button infoButton = new Button("Info");
+//        infoButton.setLayoutX(ENDLAYOUTX);
+//        infoButton.setStyle(greenStyle);
+        Label in = new Label("Q - zoom in");
+        Label out = new Label("E - zoom out");
+        Label start = new Label("Z - startpoint");
+        Label end = new Label("X - endpoint");
+        start.setStyle(greenStyle);
+        end.setStyle(greenStyle);
+        start.setLayoutX(STARTLAYOUTX);
+        end.setLayoutX(ENDLAYOUTX);
         in.setStyle(greenStyle);
         out.setStyle(greenStyle);
         in.setLayoutX(INZOOMLABELLAYOUTX);
@@ -63,8 +69,8 @@ public class Main extends Application {
         root.getChildren().add(in);
         root.getChildren().add(out);
         root.getChildren().add(exitBtn);
-        root.getChildren().add(actionButton);
-        root.getChildren().add(infoButton);
+        root.getChildren().add(start);
+        root.getChildren().add(end);
         primaryStage.show();
     }
 
