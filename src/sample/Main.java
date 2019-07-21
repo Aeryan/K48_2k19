@@ -14,7 +14,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Paint;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 
@@ -43,7 +43,7 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("map.fxml"));
         FXMLLoader secondLoader = new FXMLLoader(Main.class.getResource("sample.fxml"));
         Pane mainroot = main.load();
-        //mainroot.setBackground(new Background(new BackgroundFill(Paint.valueOf(Gr), CornerRadii.EMPTY, Insets.EMPTY)));
+        mainroot.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
         Pane root =  loader.load();
         Pane secondRoot = secondLoader.load();
         primaryStage.setTitle("PathFinder");
@@ -64,16 +64,10 @@ public class Main extends Application {
         // Menu scene settings
         Button startButton = new Button("Start!");
         startButton.setStyle(greenStyle);
-        mainroot.getChildren().add(startButton);
         startButton.setOnAction(e -> primaryStage.setScene(scene));
-        menuscene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent e) {
-                if(e.getCode() == KeyCode.X) {
-                    Platform.exit();
-                }
-            }
-        });
+        mainroot.getChildren().add(startButton);
+        Exit(menuscene);
+        Exit(scene);
         // First scene settings
         scene1.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -114,6 +108,17 @@ public class Main extends Application {
         out.setLayoutX(OUTZOOMLAYOUTX);
         root.getChildren().addAll(in, out, exitBtn, actionButton, infoButton);
         primaryStage.show();
+    }
+
+    private void Exit(Scene scene) {
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent e) {
+                if(e.getCode() == KeyCode.X) {
+                    Platform.exit();
+                }
+            }
+        });
     }
 
     public static void main(String[] args) {
